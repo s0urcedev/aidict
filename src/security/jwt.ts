@@ -1,6 +1,8 @@
-import { sign, verify } from 'jsonwebtoken';
+import jsonwebtoken from 'jsonwebtoken';
 import type { UserToken } from '../api/types';
 import { settings } from '../settings';
+
+const { sign, verify } = jsonwebtoken;
 
 export function generateToken(object: UserToken): string {
     return sign(object, settings.jwtSecretToken, { expiresIn: '365d' });
