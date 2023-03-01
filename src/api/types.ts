@@ -18,7 +18,7 @@ export type WordContent = {
     setId: ObjectId,
     language: string,
     translations: Array<Translation>
-    explanation: string
+    notes: string
 }
 
 export type SetHeaders = {

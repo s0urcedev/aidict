@@ -2,14 +2,14 @@ import { MongoClient, type Db, type Collection, ObjectId } from 'mongodb';
 import { settings } from '../settings';
 import type { SetContent, Translation, User, WordContent, WordHeaders } from './types';
 
-export async function createWord(setId: string, word: string, email: string, language: string, translations: Array<Translation>, explanation: string): Promise<ObjectId> {
+export async function createWord(setId: string, word: string, email: string, language: string, translations: Array<Translation>, notes: string): Promise<ObjectId> {
     const client: MongoClient = new MongoClient(settings.authDBURL);
     const dbSets: Db = client.db('sets');
     const collectionSets: Collection = dbSets.collection('sets');
     const dbWords: Db = client.db('words');
     const collectionWords: Collection = dbWords.collection('words');
     await client.connect();
-    const newWordId: ObjectId = (await collectionWords.insertOne({ word: word, authorsEmail: email, setId: new ObjectId(setId), language: language, translations: translations, explanation: explanation } as WordContent)).insertedId;
+    const newWordId: ObjectId = (await collectionWords.insertOne({ word: word, authorsEmail: email, setId: new ObjectId(setId), language: language, translations: translations, notes: notes } as WordContent)).insertedId;
     await collectionSets.updateOne({ _id: new ObjectId(setId) }, { $push: { words: { wordId: newWordId, wordName: word, wordLanguage: language } as WordHeaders } });
     await client.close();
     return newWordId;

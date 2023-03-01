@@ -9,7 +9,7 @@
     export let word = '', language = 'en', numberOfTranslations = 1;
     export let translationLanguages = Array(10).fill('None');
     export let translations = Array(10).fill('');
-    export let explanation = '';
+    export let notes = '';
 
     export async function translate(word: string, from: string, to: string): Promise<string> {
         if (word === '' || from === '' || to === '' || to === 'None') {
@@ -25,11 +25,11 @@
         }
     }
 
-    export async function explain(language: string, word: string): Promise<string> {
+    export async function makeNotes(language: string, word: string): Promise<string> {
         if (language === '' || word === '') {
             return '';
         } else {
-            return await (await fetch('/explain', {
+            return await (await fetch('/make-notes', {
                 method: 'POST',
                 body: JSON.stringify({ language: language, word: word }),
                 headers: {
@@ -46,11 +46,11 @@
         }
         fetch('/create-word', {
             method: 'POST',
-            body: JSON.stringify({ setId: JSON.parse(data.set)._id, word: word, language: language, translations: collectedTranslations, explanation: explanation }),
+            body: JSON.stringify({ setId: data.set._id, word: word, language: language, translations: collectedTranslations, notes: notes }),
             headers: {
                 'content-type': 'application/json'
             }
-        }).then(() => goto(`/sets/${JSON.parse(data.set)._id}`));
+        }).then(() => goto(`/sets/${data.set._id}`));
     }
 </script>
 
@@ -61,7 +61,7 @@
         margin: auto;
         margin-top: 20px;
         background-color: #FAF5EE;
-        padding: 10px;
+        padding: 5px 10px 5px 10px;
         width: 350px;
         border-radius: 0.5em;
         box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
@@ -139,12 +139,12 @@
         display: block;
         outline: 0;
         background: #006885;
-        width: auto;
+        width: 100%;
         margin: auto;
-        margin-top: 10px;
-        margin-bottom: 10px;
+        margin-top: 5px;
+        margin-bottom: 5px;
         border: 0;
-        padding: 15px;
+        padding: 10px;
         color: #FAF5EE;
         font-weight: 400;
         font-size: 24px;
@@ -182,7 +182,7 @@
             <select bind:value={language} on:change={async () => {
                 translationLanguages = Array(10).fill('None');
                 translations = Array(10).fill('');
-                explanation = '';
+                notes = '';
             }} name="language">
                 {#each Object.entries(languages['isoToName']) as [iso, name]}
                     {#if name === 'English'}
@@ -195,7 +195,7 @@
             <input bind:value={word} on:input={async () => {
                 translationLanguages = Array(10).fill('None');
                 translations = Array(10).fill('');
-                explanation = '';
+                notes = '';
             }} name="name" placeholder="word" required>
         </div>
         <span>Translations:</span>
@@ -215,10 +215,10 @@
             </div>
         {/each}
         <span>Notes:</span>
-        <TextArea bind:value={explanation} minRows={4} maxRows={40}></TextArea>
+        <TextArea bind:value={notes} minRows={4} maxRows={40}></TextArea>
         <button on:click={async () => {
-            explanation = '...';
-            explanation = (await explain(languages['isoToName'][language], word)).trim();
+            notes = '...';
+            notes = (await makeNotes(languages['isoToName'][language], word)).trim();
         }}>Make notes with AI</button>
         <button on:click={createNew}>Add to the list</button>
     </form>

@@ -42,7 +42,6 @@
         word-wrap: break-word;
 		line-height: 1.2;
 		overflow: hidden;
-        text-align: center;
     }
 
     textarea {
