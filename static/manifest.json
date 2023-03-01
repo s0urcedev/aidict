@@ -4,7 +4,7 @@
     "name": "AI Dictionary",
     "short_name": "AIDict",
     "display": "minimal-ui",
-    "start_url": "/",
+    "start_url": "/my-sets",
     "icons": [
         {
             "src": "logo-192.png",
