@@ -6,7 +6,7 @@ export async function isLoggedinAndValid(cookies: Cookies) {
     if (cookies.token !== '') {
         try {
             const userToken: UserToken = decodeToken(cookies.token);
-            const userDB: User = await getUser(userToken.email, userToken.password);
+            const userDB: User | null = await getUser(userToken.email, userToken.password);
             return userDB !== null;
         } catch (err) {
             return false;

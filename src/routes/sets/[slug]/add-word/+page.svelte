@@ -94,7 +94,7 @@
         font-family: "e-Ukraine", sans-serif;
         outline: 0;
         background: #F7EFE5;
-        width: 100%;
+        width: calc(100% - 36% - 5px);
         border: 0;
         margin: auto;
         margin-top: 10px;
@@ -104,14 +104,14 @@
         box-sizing: border-box;
         font-size: 18px;
         border-radius: 0.5em;
-        text-align: center;
+        height: 45px;
     }
 
     .add-form select {
         font-family: "e-Ukraine", sans-serif;
         outline: 0;
         background: #F7EFE5;
-        width: 100%;
+        width: 36%;
         border: 0;
         margin: auto;
         margin-top: 10px;
@@ -121,7 +121,7 @@
         box-sizing: border-box;
         font-size: 18px;
         border-radius: 0.5em;
-        text-align: center;
+        height: 45px;
     }
 
     .add-form input:focus {
@@ -178,44 +178,48 @@
     <form method="POST" class="add-form" id="addForm" on:submit={(event) => { event.preventDefault(); }}>
         <span class="title">Add word:</span>
         <span>Original:</span>
-        <select bind:value={language} on:change={async () => {
-            translationLanguages = Array(10).fill('None');
-            translations = Array(10).fill('');
-            explanation = '';
-        }} name="language">
-            {#each Object.entries(languages['isoToName']) as [iso, name]}
-                {#if name === 'English'}
-                    <option value={iso} selected>{name}</option>
-                {:else}
-                    <option value={iso}>{name}</option>
-                {/if}
-            {/each}
-        </select>
-        <input bind:value={word} on:input={async () => {
-            translationLanguages = Array(10).fill('None');
-            translations = Array(10).fill('');
-            explanation = '';
-        }} name="name" placeholder="word" required>
-        <span>Translations:</span>
-        <input type="number" min=1 max=10 bind:value={numberOfTranslations} name="numberOfTranslations" placeholder="Number of translations">
-        {#each Array(numberOfTranslations) as _, index}
-            <select bind:value={translationLanguages[index]} on:change={async () => {
-                translations[index] = '...';
-                translations[index] = await translate(word, language, translationLanguages[index]);
-            }} name="translate_language{index}">
-                <option value="None" selected>None</option>
+        <div>
+            <select bind:value={language} on:change={async () => {
+                translationLanguages = Array(10).fill('None');
+                translations = Array(10).fill('');
+                explanation = '';
+            }} name="language">
                 {#each Object.entries(languages['isoToName']) as [iso, name]}
-                    <option value={iso}>{name}</option>
+                    {#if name === 'English'}
+                        <option value={iso} selected>{name}</option>
+                    {:else}
+                        <option value={iso}>{name}</option>
+                    {/if}
                 {/each}
             </select>
-            <input bind:value={translations[index]} name="translation{index}" placeholder="translation">
+            <input bind:value={word} on:input={async () => {
+                translationLanguages = Array(10).fill('None');
+                translations = Array(10).fill('');
+                explanation = '';
+            }} name="name" placeholder="word" required>
+        </div>
+        <span>Translations:</span>
+        <input type="number" style="width: 100%; text-align: center;" min=0 max=10 bind:value={numberOfTranslations} name="numberOfTranslations" placeholder="Number of translations">
+        {#each Array(numberOfTranslations) as _, index}
+            <div>    
+                <select bind:value={translationLanguages[index]} on:change={async () => {
+                    translations[index] = '...';
+                    translations[index] = await translate(word, language, translationLanguages[index]);
+                }} name="translate_language{index}">
+                    <option value="None" selected>None</option>
+                    {#each Object.entries(languages['isoToName']) as [iso, name]}
+                        <option value={iso}>{name}</option>
+                    {/each}
+                </select>
+                <input bind:value={translations[index]} name="translation{index}" placeholder="translation">
+            </div>
         {/each}
-        <span>Explanation:</span>
+        <span>Notes:</span>
         <TextArea bind:value={explanation} minRows={4} maxRows={40}></TextArea>
         <button on:click={async () => {
             explanation = '...';
             explanation = (await explain(languages['isoToName'][language], word)).trim();
-        }}>Explain with AI</button>
+        }}>Make notes with AI</button>
         <button on:click={createNew}>Add to the list</button>
     </form>
 </main>

@@ -112,3 +112,31 @@ code {
     font-style: normal;
     font-display: swap;
 }
+
+.autocomplete-items {
+    position: absolute;
+    border: 1px solid #F7EFE5;
+    color: #006885;
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    top: 100%;
+    left: 0;
+    right: 0;
+    font-size: 18px;
+    font-family: "e-Ukraine", sans-serif;
+}
+.autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #FAF5EE;
+    border-bottom: 1px solid #006885;
+    border-radius: 0.5em;
+}
+.autocomplete-items div:hover {
+    background-color: #F7EFE5;
+}
+.autocomplete-active {
+    background-color: #006885 !important;
+    color: #F7EFE5;
+}

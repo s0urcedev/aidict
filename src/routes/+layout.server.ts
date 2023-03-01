@@ -1,5 +1,7 @@
 import type { UserToken, User } from '../api/types';
 import { getUser } from '../api/users';
+import { getUsersWords } from '../api/words';
+import { languages } from '../laguages';
 import { decodeToken } from '../security/jwt';
 import type { LayoutServerLoad, LayoutServerLoadEvent } from './$types';
 
@@ -15,35 +17,42 @@ export const load: LayoutServerLoad = (async ({ cookies }: LayoutServerLoadEvent
                         email: user?.email,
                         password: user?.password
                     },
-                    redirect: ''
+                    usersWords: (await getUsersWords(user.email, user.password)).map(element => { return { id: element.wordId.toString(), text: `${element.wordName} (${languages['isoToName'][element.wordLanguage]})` }; }),
+                    redirect: '',
                 };
             } else {
+                console.log(user);
                 return {
                     user: {
                         name: '',
                         email: '',
                         password: ''
                     },
+                    usersWords: [],
                     redirect: '/login'
                 };
             }
         } else {
+            console.log(cookies.get('token'));
             return {
                 user: {
                     name: '',
                     email: '',
                     password: ''
                 },
+                usersWords: [],
                 redirect: '/login'
             };
         }
     } catch (err) {
+        console.log(err);
         return {
             user: {
                 name: '',
                 email: '',
                 password: ''
             },
+            usersWords: [],
             redirect: '/login'
         };
     }

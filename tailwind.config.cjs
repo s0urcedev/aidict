@@ -13,6 +13,9 @@ const config = {
         },
         fontFamily: {
             'e-ukraine': ['e-Ukraine', 'sans-serif']
+        },
+        fontSize: {
+            md: '22px'
         }
     },
 
