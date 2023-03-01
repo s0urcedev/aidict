@@ -13,11 +13,11 @@ export const actions: Actions = {
                 cookies.set('token', generateToken({ email: String(data.get('email')), password: hash(String(data.get('password'))) }), { sameSite: 'strict', maxAge: 365 * 24 * 60 * 60 * 1000, httpOnly: true, path: '/' });
                 resRedirect = redirect(303, '/');
             } else {
-                cookies.set('token', '', { sameSite: 'strict', maxAge: 365 * 24 * 60 * 60 * 1000, httpOnly: true, path: '/' });
+                cookies.delete('token');
                 resRedirect = redirect(303, '/login?message=Wrong email or password');
             }
         } catch (err) {
-            cookies.set('token', '', { sameSite: 'strict', maxAge: 365 * 24 * 60 * 60 * 1000, httpOnly: true, path: '/' });
+            cookies.delete('token');
             resRedirect = redirect(303, '/login?message=Something went wrong on our side');
         }
         throw resRedirect;

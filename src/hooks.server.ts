@@ -30,7 +30,7 @@ export const handle: Handle = async ({ event, resolve }) => {
                 };
             } else {
                 if (!unProtectedRoutes.includes(event.url.pathname)) {
-                    return new Response('', { status: 303, headers: { location: '/login' } });
+                    return new Response('', { status: 303, headers: { location: '/login?check=true' } });
                 } else {
                     event.locals = {
                         user: {
@@ -45,7 +45,7 @@ export const handle: Handle = async ({ event, resolve }) => {
             }
         } else {
             if (!unProtectedRoutes.includes(event.url.pathname)) {
-                return new Response('', { status: 303, headers: { location: '/login' } });
+                return new Response('', { status: 303, headers: { location: '/login?check=true' } });
             } else {
                 event.locals = {
                     user: {
@@ -60,7 +60,7 @@ export const handle: Handle = async ({ event, resolve }) => {
         }
     } catch (err) {
         if (!unProtectedRoutes.includes(event.url.pathname)) {
-            return new Response('', { status: 303, headers: { location: '/login' } });
+            return new Response('', { status: 303, headers: { location: '/login?check=true' } });
         } else {
             event.locals = {
                 user: {
