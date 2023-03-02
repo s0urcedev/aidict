@@ -16,7 +16,7 @@
     }
 
     onMount(() => {
-        if (data.unauthorized) goto('/login');
+        if (data.unauthorized) goto('/login?check=true');
     });
 </script>
 

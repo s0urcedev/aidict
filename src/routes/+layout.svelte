@@ -82,7 +82,7 @@
     }
 
     onMount(() => {
-        if (data.unauthorized) goto('/login');
+        if (data.unauthorized) goto('/login?check=true');
         const x = document.getElementById('search-navbar');
         if (x !== null) { autocomplete(x, data.usersWords); }
     });
