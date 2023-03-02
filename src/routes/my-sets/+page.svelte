@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { goto } from '$app/navigation';
+    import { onMount } from 'svelte';
     import type { PageData } from './$types';
 
     export let data: PageData;
@@ -12,6 +14,10 @@
             }
         }).then(res => res.json()).then(data => window.location.href = `/sets/${data}`);
     }
+
+    onMount(() => {
+        if (data.unauthorized) goto('/login');
+    });
 </script>
 
 <style>

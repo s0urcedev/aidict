@@ -1,8 +1,11 @@
 <script lang="ts">
+    import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
-
+    import type { PageData } from './$types';
+    export let data: PageData;
     export let message: string | null = null;
     onMount(async () => {
+        if (data.unauthorized) goto('/login');
         const queryString: string = window.location.search;
         const urlParams: URLSearchParams = new URLSearchParams(queryString);
         message = urlParams.get('message');
