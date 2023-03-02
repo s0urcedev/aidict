@@ -1,7 +1,6 @@
 <script lang="ts">
     import { languages } from '../../../../laguages';
     import TextArea from '../../../../components/TextArea.svelte';
-    import { goto } from '$app/navigation';
     import type { PageData } from './$types';
 
     export let data: PageData;
@@ -50,7 +49,7 @@
             headers: {
                 'content-type': 'application/json'
             }
-        }).then(() => goto(`/sets/${data.set._id}`));
+        }).then(() => window.location.href = `/sets/${data.set._id}`);
     }
 </script>
 

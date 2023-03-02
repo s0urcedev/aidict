@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
 
     export let message: string | null = null;
@@ -10,6 +9,6 @@
         if (message !== null) {  
             alert(message);
         }
-        goto('/my-sets');
+        window.location.href = '/my-sets';
     });
 </script>

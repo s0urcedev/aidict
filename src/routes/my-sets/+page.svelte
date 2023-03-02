@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
     import type { PageData } from './$types';
 
     export let data: PageData;
@@ -11,7 +10,7 @@
             headers: {
                 'content-type': 'application/json'
             }
-        }).then(res => res.json()).then(data => goto(`/sets/${data}`));
+        }).then(res => res.json()).then(data => window.location.href = `/sets/${data}`);
     }
 </script>
 
@@ -92,7 +91,7 @@
     <span class="title">My sets</span>
     <hr style="height:2px; border-width:0; color:#006885; background-color:#006885">
     {#each data.sets as set}
-        <a href="/sets/{set.id}"><span>{set.name}</span></a>
+        <a data-sveltekit-reload href="/sets/{set.id}"><span>{set.name}</span></a>
     {/each}
     <button on:click={createNew}>Create new</button>
 </main>

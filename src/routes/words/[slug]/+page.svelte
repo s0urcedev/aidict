@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
     import { languages } from '../../../laguages';
     import type { PageData } from './$types';
 
@@ -12,7 +11,7 @@
             headers: {
                 'content-type': 'application/json'
             }
-        }).then(() => goto(`/sets/${data.word?.setId}`));
+        }).then(() => window.location.href = `/sets/${data.word?.setId}`);
     }
 </script>
 

@@ -121,6 +121,6 @@
             <span style="color: red; margin-top: 10px; margin-bottom: -5px;">{message}</span>
         {/if}
         <button type="submit">register</button>
-        <span style="margin-top: -5px;">Already have an account? <a href="/login">Login</a></span>
+        <span style="margin-top: -5px;">Already have an account? <a data-sveltekit-reload href="/login">Login</a></span>
     </form>
 </main>

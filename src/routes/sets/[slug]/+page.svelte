@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
     import { languages } from '../../../laguages';
     import type { PageData } from './$types';
 
@@ -12,7 +11,7 @@
             headers: {
                 'content-type': 'application/json'
             }
-        }).then(() => goto('/my-sets'));
+        }).then(() => window.location.href = '/my-sets');
     }
 </script>
 
@@ -90,8 +89,8 @@
     <span class="title">{data.set.name}</span>
     <hr style="height:2px; border-width:0; color:#006885; background-color:#006885">
     {#each data.set.words as word}
-        <a href="/words/{word.wordId}"><span>{word.wordName} (<u>{languages['isoToName'][word.wordLanguage]}</u>)</span></a>
+        <a data-sveltekit-reload href="/words/{word.wordId}"><span>{word.wordName} (<u>{languages['isoToName'][word.wordLanguage]}</u>)</span></a>
     {/each}
-    <button on:click={() => goto(`/sets/${data.set._id}/add-word`)}>Add word</button>
+    <button on:click={() => window.location.href = `/sets/${data.set._id}/add-word`}>Add word</button>
     <button on:click={deleteSet}>Delete set</button>
 </main>

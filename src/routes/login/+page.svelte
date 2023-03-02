@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
     export let message: string | null = null;
     onMount(async () => {
@@ -8,7 +7,7 @@
         message = urlParams.get('message');
         if (urlParams.get('check') === 'true') {
             if (await (await fetch('get-user')).json() !== null) {
-                goto('/');
+                window.location.href = '/';
             }
         }
     });
@@ -125,6 +124,6 @@
             <span style="color: red; margin-top: 10px; margin-bottom: -5px;">{message}</span>
         {/if}
         <button>login</button>
-        <span style="margin-top: -5px;">Don't have an account? <a href="/register">Register</a></span>
+        <span style="margin-top: -5px;">Don't have an account? <a data-sveltekit-reload href="/register">Register</a></span>
     </form>
 </main>
