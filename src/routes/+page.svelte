@@ -57,6 +57,6 @@
 </svelte:head>
 
 <main>
-    <button><a data-sveltekit-reload href="/my-sets">My sets</a></button>
-    <button><a data-sveltekit-reload href="/login">Authorize</a></button>
+    <a data-sveltekit-reload href="/my-sets"><button>My sets</button></a>
+    <a data-sveltekit-reload href="/login"><button>Authorize</button></a>
 </main>
