@@ -1,14 +1,12 @@
-import type { Cookies } from '@sveltejs/kit';
 import type { User, UserToken } from '../../api/types';
 import { getUser } from '../../api/users';
 import { decodeToken } from '../../security/jwt';
 import type { PageServerLoad, PageServerLoadEvent } from './$types';
 
-export const load: PageServerLoad  = (async ({ locals }: PageServerLoadEvent) => {
+export const load: PageServerLoad  = (async ({ cookies }: PageServerLoadEvent) => {
     try {
-        const gotLocals = locals as {cookies: Cookies};
-        if (gotLocals.cookies.get('token') !== undefined && gotLocals.cookies.get('token') !== null && gotLocals.cookies.get('token') !== '') {
-            const userToken: UserToken = decodeToken(gotLocals.cookies.get('token') ?? '');
+        if (cookies.get('token') !== undefined && cookies.get('token') !== null && cookies.get('token') !== '') {
+            const userToken: UserToken = decodeToken(cookies.get('token') ?? '');
             const user: User | null = await getUser(userToken['email'], userToken['password']);
             if (user !== null) {
                 return {

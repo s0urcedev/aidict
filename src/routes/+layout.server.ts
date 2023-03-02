@@ -1,4 +1,3 @@
-import type { Cookies } from '@sveltejs/kit';
 import type { User, UserToken } from '../api/types';
 import { getUser } from '../api/users';
 import { getUsersWords } from '../api/words';
@@ -6,11 +5,10 @@ import { languages } from '../laguages';
 import { decodeToken } from '../security/jwt';
 import type { LayoutServerLoad, LayoutServerLoadEvent } from './$types';
 
-export const load: LayoutServerLoad = (async ({ locals }: LayoutServerLoadEvent) => {
+export const load: LayoutServerLoad = (async ({ cookies }: LayoutServerLoadEvent) => {
     try {
-        const gotLocals = locals as { cookies: Cookies };
-        if (gotLocals.cookies.get('token') !== undefined && gotLocals.cookies.get('token') !== null && gotLocals.cookies.get('token') !== '') {
-            const userToken: UserToken = decodeToken(gotLocals.cookies.get('token') ?? '');
+        if (cookies.get('token') !== undefined && cookies.get('token') !== null && cookies.get('token') !== '') {
+            const userToken: UserToken = decodeToken(cookies.get('token') ?? '');
             const user: User | null = await getUser(userToken['email'], userToken['password']);
             if (user !== null) {
                 return {
