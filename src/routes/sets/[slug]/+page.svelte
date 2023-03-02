@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { goto } from '$app/navigation';
     import { languages } from '../../../laguages';
     import type { PageData } from './$types';
 
@@ -91,6 +92,6 @@
     {#each data.set.words as word}
         <a data-sveltekit-reload href="/words/{word.wordId}"><span>{word.wordName} (<u>{languages['isoToName'][word.wordLanguage]}</u>)</span></a>
     {/each}
-    <button on:click={() => window.location.href = `/sets/${data.set._id}/add-word`}>Add word</button>
+    <button on:click={() => goto(`/sets/${data.set._id}/add-word`)}>Add word</button>
     <button on:click={deleteSet}>Delete set</button>
 </main>

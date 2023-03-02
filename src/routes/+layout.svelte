@@ -8,6 +8,7 @@
     import Navbar from '../components/Navbar.svelte';
     import type { LayoutData } from './$types';
     import { onMount } from 'svelte';
+    import { goto } from '$app/navigation';
 
     export let data: LayoutData;
 
@@ -51,7 +52,7 @@
                     b.innerHTML += '<input type=\'hidden\' value=\'' + arr[i].id + '\'>';
                     b.addEventListener('click', function() {
                         (inp as HTMLInputElement).value = '';
-                        window.location.href = `/words/${this.getElementsByTagName('input')[0].value}`;
+                        goto(`/words/${this.getElementsByTagName('input')[0].value}`);
                         closeAllLists();
                     });
                     a.appendChild(b);
@@ -107,16 +108,16 @@
     {#if hidden}
         <div class="w-full md:flex md:justify-start" {hidden}>
             <ul class="h-[45px] flex flex-col items-center p-3 mt-2 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium bg-second-dark rounded-lg">
-                <li><a data-sveltekit-reload href="/" class="block py-2 pr-4 pl-3 md:p-0 rounded md:border-0"><span class="font-e-ukraine text-first hover:opacity-50 text-[20px] font-bold">Home</span></a></li>
-                <li><a data-sveltekit-reload href="/my-sets"class="block py-2 pr-4 pl-3 md:p-0 rounded md:border-0"><span class="font-e-ukraine text-first hover:opacity-50 text-[20px] font-bold">My sets</span></a></li>
+                <li><a href="/" class="block py-2 pr-4 pl-3 md:p-0 rounded md:border-0"><span class="font-e-ukraine text-first hover:opacity-50 text-[20px] font-bold">Home</span></a></li>
+                <li><a href="/my-sets"class="block py-2 pr-4 pl-3 md:p-0 rounded md:border-0"><span class="font-e-ukraine text-first hover:opacity-50 text-[20px] font-bold">My sets</span></a></li>
                 <li><div id="nav-menu1" class="cursor-pointer flex items-center justify-between py-2 pr-4 pl-3 md:p-0 rounded md:border-0">
                     <span class="font-e-ukraine text-first hover:opacity-50 text-[20px] font-bold">Authorize</span>
                     <ChevronDown class="h-[34px] w-[34px] shrink-0" color="#006885" />
                 <div></li>
                 <Dropdown border rounded triggeredBy="#nav-menu1" class="w-[150px] z-20 bg-second focus:bg-second">
-                    <li><a data-sveltekit-reload href="/login" class="block py-2 pr-4 pl-3 md:p-0 rounded md:border-0"><span class="py-2 px-4 block font-e-ukraine text-first hover:opacity-50 text-[18px] font-bold">Authorize</span></a></li>
+                    <li><a href="/login" class="block py-2 pr-4 pl-3 md:p-0 rounded md:border-0"><span class="py-2 px-4 block font-e-ukraine text-first hover:opacity-50 text-[18px] font-bold">Authorize</span></a></li>
                     <div class="bg-first my-[1px] h-[2px] border-0" />
-                    <li><a data-sveltekit-reload href="/sign-out" class="block py-2 pr-4 pl-3 md:p-0 rounded md:border-0"><span class="py-2 px-4 block font-e-ukraine text-first hover:opacity-50 text-[18px] font-bold">Sign Out</span></a></li>
+                    <li><a href="/sign-out" class="block py-2 pr-4 pl-3 md:p-0 rounded md:border-0"><span class="py-2 px-4 block font-e-ukraine text-first hover:opacity-50 text-[18px] font-bold">Sign Out</span></a></li>
                 </Dropdown>
             </ul>
         </div>
@@ -137,16 +138,16 @@
     {#if !hidden}
         <div class="w-full md:block md:w-auto" transition:slide={{ delay: 100, duration: 500, easing: quintOut }}>
             <Frame tag="ul" border rounded color="none" class="flex flex-col p-4 mt-2 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium bg-second-dark border-0">
-                <li><a data-sveltekit-reload href="/" class="block py-2 pr-4 pl-3 md:p-0 rounded md:border-0"><span class="font-e-ukraine text-first hover:opacity-50 text-[20px] font-bold">Home</span></a></li>
-                <li><a data-sveltekit-reload href="/my-sets"class="block py-2 pr-4 pl-3 md:p-0 rounded md:border-0"><span class="font-e-ukraine text-first hover:opacity-50 text-[20px] font-bold">My sets</span></a></li>
+                <li><a href="/" class="block py-2 pr-4 pl-3 md:p-0 rounded md:border-0"><span class="font-e-ukraine text-first hover:opacity-50 text-[20px] font-bold">Home</span></a></li>
+                <li><a href="/my-sets"class="block py-2 pr-4 pl-3 md:p-0 rounded md:border-0"><span class="font-e-ukraine text-first hover:opacity-50 text-[20px] font-bold">My sets</span></a></li>
                 <li><div id="nav-menu1" class="cursor-pointer flex items-center justify-between py-2 pr-4 pl-3 md:p-0 rounded md:border-0">
                     <span class="font-e-ukraine text-first hover:opacity-50 text-[20px] font-bold">Authroize</span>
                     <ChevronDown class="h-[34px] w-[34px] shrink-0" color="#006885" />
                 <div></li>
                 <Dropdown border rounded triggeredBy="#nav-menu1" class="w-[150px] z-20 bg-second focus:bg-second">
-                    <li><a data-sveltekit-reload href="/login" class="block py-2 pr-4 pl-3 md:p-0 rounded md:border-0"><span class="py-2 px-4 block font-e-ukraine text-first hover:opacity-50 text-[18px] font-bold">Authorize</span></a></li>
+                    <li><a href="/login" class="block py-2 pr-4 pl-3 md:p-0 rounded md:border-0"><span class="py-2 px-4 block font-e-ukraine text-first hover:opacity-50 text-[18px] font-bold">Authorize</span></a></li>
                     <div class="bg-first my-[1px] h-[2px] border-0" />
-                    <li><a data-sveltekit-reload href="/sign-out" class="block py-2 pr-4 pl-3 md:p-0 rounded md:border-0"><span class="py-2 px-4 block font-e-ukraine text-first hover:opacity-50 text-[18px] font-bold">Sign Out</span></a></li>
+                    <li><a href="/sign-out" class="block py-2 pr-4 pl-3 md:p-0 rounded md:border-0"><span class="py-2 px-4 block font-e-ukraine text-first hover:opacity-50 text-[18px] font-bold">Sign Out</span></a></li>
                 </Dropdown>
             </Frame>
         </div>
