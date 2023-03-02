@@ -9,7 +9,7 @@ const openai = new OpenAIApi(configuration);
 export async function getExaplanation(originalLanguage: string, word: string) {
     const completion = await openai.createCompletion({
         model: 'text-davinci-003',
-        prompt: `Collect this information about ${originalLanguage} word ${word}: Explanation; Examples`,
+        prompt: `Collect this information about ${originalLanguage} word/phrase ${word}: Explanation, Examples.`,
         temperature: 0.7,
         max_tokens: 300
     });
