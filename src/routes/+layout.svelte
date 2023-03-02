@@ -81,8 +81,8 @@
         });
     }
 
-    onMount(() => {
-        if (data.unauthorized) goto('/login?check=true');
+    onMount(async () => {
+        if (data.unauthorized && await (await fetch('get-user')).json() === null) goto('/login');
         const x = document.getElementById('search-navbar');
         if (x !== null) { autocomplete(x, data.usersWords); }
     });

@@ -15,8 +15,8 @@
         }).then(res => res.json()).then(data => window.location.href = `/sets/${data}`);
     }
 
-    onMount(() => {
-        if (data.unauthorized) goto('/login?check=true');
+    onMount(async () => {
+        if (data.unauthorized && await (await fetch('get-user')).json() === null) goto('/login');
     });
 </script>
 

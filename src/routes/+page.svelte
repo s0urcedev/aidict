@@ -5,7 +5,7 @@
     export let data: PageData;
     export let message: string | null = null;
     onMount(async () => {
-        if (data.unauthorized) goto('/login?check=true');
+        if (data.unauthorized && await (await fetch('get-user')).json() === null) goto('/login');
         const queryString: string = window.location.search;
         const urlParams: URLSearchParams = new URLSearchParams(queryString);
         message = urlParams.get('message');

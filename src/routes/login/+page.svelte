@@ -5,11 +5,6 @@
         const queryString: string = window.location.search;
         const urlParams: URLSearchParams = new URLSearchParams(queryString);
         message = urlParams.get('message');
-        if (urlParams.get('check') === 'true') {
-            if (await (await fetch('get-user')).json() !== null) {
-                window.location.href = '/';
-            }
-        }
     });
 </script>
 
