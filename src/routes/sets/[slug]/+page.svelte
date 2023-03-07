@@ -8,7 +8,7 @@
     export function deleteSet() {
         fetch('/delete-set', {
             method: 'POST',
-            body: JSON.stringify({ setId: data.set._id, setName: data.set.name, words: data.set.words }),
+            body: JSON.stringify({ setId: data.set.id, setName: data.set.name, words: data.set.words }),
             headers: {
                 'content-type': 'application/json'
             }
@@ -90,8 +90,8 @@
     <span class="title">{data.set.name}</span>
     <hr style="height:2px; border-width:0; color:#006885; background-color:#006885">
     {#each data.set.words as word}
-        <a data-sveltekit-reload href="/words/{word.wordId}"><span>{word.wordName} (<u>{languages['isoToName'][word.wordLanguage]}</u>)</span></a>
+        <a data-sveltekit-reload href="/words/{word.id}"><span>{word.word} (<u>{languages['isoToName'][word.language]}</u>)</span></a>
     {/each}
-    <button on:click={() => goto(`/sets/${data.set._id}/add-word`)}>Add word</button>
+    <button on:click={() => goto(`/sets/${data.set.id}/add-word`)}>Add word</button>
     <button on:click={deleteSet}>Delete set</button>
 </main>

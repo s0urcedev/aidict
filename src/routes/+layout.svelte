@@ -9,10 +9,11 @@
     import type { LayoutData } from './$types';
     import { onMount } from 'svelte';
     import { goto } from '$app/navigation';
+    import { languages } from '../laguages';
 
     export let data: LayoutData;
 
-    function autocomplete(inp: HTMLElement, arr: Array<{id: string, text: string}>): void {
+    function autocomplete(inp: HTMLElement, arr: Array<{ id: string, word: string, language: string }>): void {
         let currentFocus: number;
         function addActive(x: HTMLCollection): boolean {
             if (!x) return false;
@@ -45,11 +46,12 @@
             a.setAttribute('class', 'autocomplete-items');
             this.parentNode?.appendChild(a);
             for (let i = 0; i < arr.length; i++) {
-                if (arr[i].text.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                let wordText = arr[i].word + ' (<u>' + languages['isoToName'][arr[i].language] + '</u>)';
+                if (wordText.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
                     const b = document.createElement('DIV');
-                    b.innerHTML = '<strong>' + arr[i].text.substr(0, val.length) + '</strong>';
-                    b.innerHTML += arr[i].text.substr(val.length);
-                    b.innerHTML += '<input type=\'hidden\' value=\'' + arr[i].id + '\'>';
+                    b.innerHTML = '<strong>' + wordText.substr(0, val.length) + '</strong>';
+                    b.innerHTML += wordText.substr(val.length);
+                    b.innerHTML += '<input type=\'hidden\' value=\'' + arr[i].id.toString() + '\'>';
                     b.addEventListener('click', function() {
                         (inp as HTMLInputElement).value = '';
                         goto(`/words/${this.getElementsByTagName('input')[0].value}`);

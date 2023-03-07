@@ -1,3 +1,4 @@
+import { getUsersSets } from '../../api/sets';
 import type { User, UserToken } from '../../api/types';
 import { getUser } from '../../api/users';
 import { decodeToken } from '../../security/jwt';
@@ -11,7 +12,7 @@ export const load: PageServerLoad  = (async ({ cookies }: PageServerLoadEvent) =
             if (user !== null) {
                 return {
                     unauthorized: false,
-                    sets: user.sets.map(element => { return { id: element.setId.toString(), name: element.setName }; })
+                    sets: await getUsersSets(user.email)
                 };
             } else {
                 return {

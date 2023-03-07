@@ -7,7 +7,7 @@
     export function deleteWord() {
         fetch('/delete-word', {
             method: 'POST',
-            body: JSON.stringify({ setId: data.word?.setId, wordId: data.word?._id, wordName: data.word?.word, wordLanguage: data.word?.language }),
+            body: JSON.stringify({ setId: data.word?.setId, wordId: data.word?.id, wordName: data.word?.word, wordLanguage: data.word?.language }),
             headers: {
                 'content-type': 'application/json'
             }

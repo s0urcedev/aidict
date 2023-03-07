@@ -1,42 +1,52 @@
-import { MongoClient, type Db, type Collection, ObjectId } from 'mongodb';
+import { MongoClient, type Collection, ObjectId } from 'mongodb';
 import { settings } from '../settings';
-import type { SetContent, SetHeaders, WordHeaders } from './types';
+import type { Set } from './types';
 import { deleteWord } from './words';
 
-export async function createSet(email: string, password: string, setName: string): Promise<ObjectId> {
+export async function createSet(email: string, setName: string): Promise<ObjectId> {
     const client: MongoClient = new MongoClient(settings.authDBURL);
-    const dbUsers: Db = client.db('users');
-    const collectionUsers: Collection = dbUsers.collection('users');
-    const dbSets: Db = client.db('sets');
-    const collectionSets: Collection = dbSets.collection('sets');
+    const collectionSets: Collection = client.db('sets').collection('sets');
     await client.connect();
-    const newSetId: ObjectId = (await collectionSets.insertOne({ name: setName, authorsEmail: email, words: [] } as SetContent)).insertedId;
-    await collectionUsers.updateOne({ email: email, password: password }, { $push: { sets: { setId: newSetId, setName: setName } as SetHeaders } });
+    const newSetId: ObjectId = (await collectionSets.insertOne({ name: setName, authorsEmail: email, words: [] } as Set)).insertedId;
     await client.close();
     return newSetId;
 }
 
-export async function getSet(id: string): Promise<SetContent | null> {
+export async function getSet(id: string): Promise<Set | null> {
     const client: MongoClient = new MongoClient(settings.authDBURL);
-    const dbSets: Db = client.db('sets');
-    const collectionSets: Collection = dbSets.collection('sets');
+    const collectionSets: Collection = client.db('sets').collection('sets');
     await client.connect();
-    const res: SetContent | null = (await collectionSets.findOne({ _id: new ObjectId(id) })) as SetContent;
+    const res: Set | null = (await collectionSets.findOne({ _id: new ObjectId(id) })) as Set;
     await client.close();
     return res;
 }
 
-export async function deleteSet(email: string, password: string, setId: string, setName: string, words: Array<WordHeaders>): Promise<void> {
+export async function deleteSet(setId: string): Promise<void> {
     const client: MongoClient = new MongoClient(settings.authDBURL);
-    const dbUsers: Db = client.db('users');
-    const collectionUsers: Collection = dbUsers.collection('users');
-    const dbSets: Db = client.db('sets');
-    const collectionSets: Collection = dbSets.collection('sets');
+    const collectionSets: Collection = client.db('sets').collection('sets');
+    const collectionWords: Collection = client.db('words').collection('words');
     await client.connect();
-    await collectionUsers.updateOne({ email: email, password: password }, { $pull: { sets: { setId: new ObjectId(setId), setName: setName } as SetHeaders } });
-    for (const word of words) {
-        await deleteWord(setId, word.wordId.toString(), word.wordName, word.wordLanguage);
+    for (const word of await (collectionWords.find({ setId: new Object(setId) })).toArray()) {
+        await deleteWord(word.wordId.toString());
     }
     await collectionSets.deleteOne({ _id: new ObjectId(setId) });
     await client.close();
+}
+
+export async function getUsersSets(email: string): Promise<Array<{ id: string, name: string }>> {
+    const client: MongoClient = new MongoClient(settings.authDBURL);
+    const collectionSets: Collection = client.db('sets').collection('sets');
+    await client.connect();
+    const usersSets = (await (collectionSets.find({ authorsEmail: email }, { projection: { name: 1 } })).map(doc => { return { id: doc._id.toString(), name: doc.name }; }).toArray()) as Array<{ id: string, name: string }>;
+    await client.close();
+    return usersSets;
+}
+
+export async function getSetsWords(setId: string): Promise<Array<{ id: string, word: string, language: string }>> {
+    const client: MongoClient = new MongoClient(settings.authDBURL);
+    const collectionWords: Collection = client.db('words').collection('words');
+    await client.connect();
+    const usersSets = (await (collectionWords.find({ setId: new ObjectId(setId) }, { projection: { word: 1, language: 1 } })).map(doc => { return { id: doc._id.toString(), word: doc.word, language: doc.language }; }).toArray()) as Array<{ id: string, word: string, language: string }>;
+    await client.close();
+    return usersSets;
 }

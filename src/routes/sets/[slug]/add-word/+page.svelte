@@ -45,11 +45,11 @@
         }
         fetch('/create-word', {
             method: 'POST',
-            body: JSON.stringify({ setId: data.set._id, word: word, language: language, translations: collectedTranslations, notes: notes }),
+            body: JSON.stringify({ setId: data.set.id, word: word, language: language, translations: collectedTranslations, notes: notes }),
             headers: {
                 'content-type': 'application/json'
             }
-        }).then(() => window.location.href = `/sets/${data.set._id}`);
+        }).then(() => window.location.href = `/sets/${data.set.id}`);
     }
 </script>
 

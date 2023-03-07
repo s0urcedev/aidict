@@ -11,7 +11,7 @@ export const POST: RequestHandler = (async ({ request, cookies }: RequestEvent):
         const userToken: UserToken = decodeToken(cookies.get('token') ?? '');
         const user: User | null = await getUser(userToken['email'], userToken['password']) as User;
         if (user !== null) {
-            return json((await createSet(user.email, user.password, setName)).toString());
+            return json((await createSet(user.email, setName)).toString());
         } else {
             return json('');
         }

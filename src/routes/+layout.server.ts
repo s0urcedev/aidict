@@ -1,9 +1,13 @@
+import { ObjectId } from 'mongodb';
 import type { User, UserToken } from '../api/types';
 import { getUser } from '../api/users';
 import { getUsersWords } from '../api/words';
-import { languages } from '../laguages';
 import { decodeToken } from '../security/jwt';
 import type { LayoutServerLoad, LayoutServerLoadEvent } from './$types';
+
+ObjectId.prototype.toJSON = function(): string {
+    return this.toString();
+};
 
 export const load: LayoutServerLoad = (async ({ cookies }: LayoutServerLoadEvent) => {
     try {
@@ -18,7 +22,7 @@ export const load: LayoutServerLoad = (async ({ cookies }: LayoutServerLoadEvent
                         password: user.password
                     },
                     unauthorized: false,
-                    usersWords: (await getUsersWords(user.email, user.password)).map(element => { return { id: element.wordId.toString(), text: `${element.wordName} (${languages['isoToName'][element.wordLanguage]})` }; })
+                    usersWords: await getUsersWords(user.email)
                 };
             } else {
                 return {

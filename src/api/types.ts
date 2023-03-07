@@ -5,13 +5,7 @@ export type Translation = {
     translation: string
 }
 
-export type WordHeaders = {
-    wordId: ObjectId,
-    wordName: string,
-    wordLanguage: string
-}
-
-export type WordContent = {
+export type Word = {
     _id?: ObjectId,
     word: string,
     authorsEmail: string,
@@ -21,24 +15,17 @@ export type WordContent = {
     notes: string
 }
 
-export type SetHeaders = {
-    setId: ObjectId,
-    setName: string
-}
-
-export type SetContent = {
+export type Set = {
     _id?: ObjectId,
     name: string,
-    authorsEmail: string,
-    words: Array<WordHeaders>
+    authorsEmail: string
 }
 
 export type User = {
     _id?: ObjectId,
     name: string,
     email: string,
-    password: string,
-    sets: Array<SetHeaders>
+    password: string
 }
 
 export type UserToken = {

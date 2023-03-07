@@ -5,7 +5,7 @@ export const load: PageServerLoad = (async ({ params }: PageServerLoadEvent) => 
     const word = await getWord(params.slug);
     return {
         word: {
-            _id: word?._id?.toString(),
+            id: word?._id?.toString(),
             word: word?.word,
             authorsEmail: word?.authorsEmail,
             setId: word?.setId.toString(),
