@@ -6,13 +6,16 @@
     export let data: PageData;
 
     export function createNew() {
-        fetch('/create-set', {
-            method: 'POST',
-            body: JSON.stringify({ setName: prompt('New set name:') }),
-            headers: {
-                'content-type': 'application/json'
-            }
-        }).then(res => res.json()).then(data => window.location.href = `/sets/${data}`);
+        const name = prompt('New set name:');
+        if (name !== null) {
+            fetch('/create-set', {
+                method: 'POST',
+                body: JSON.stringify({ setName: name }),
+                headers: {
+                    'content-type': 'application/json'
+                }
+            }).then(res => res.json()).then(data => window.location.href = `/sets/${data}`);
+        }
     }
 
     onMount(async () => {
