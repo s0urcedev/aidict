@@ -14,13 +14,17 @@
         if (word === '' || from === '' || to === '' || to === 'None') {
             return '';
         } else {
-            return await (await fetch('/translate', {
-                method: 'POST',
-                body: JSON.stringify({ word: word, from: from, to: to }),
-                headers: {
-                    'content-type': 'application/json'
-                }
-            })).json();
+            try {
+                return await (await fetch('/translate', {
+                    method: 'POST',
+                    body: JSON.stringify({ word: word, from: from, to: to }),
+                    headers: {
+                        'content-type': 'application/json'
+                    }
+                })).json();
+            } catch (err) {
+                return '*Error*';
+            }
         }
     }
 
@@ -28,13 +32,17 @@
         if (language === '' || word === '') {
             return '';
         } else {
-            return await (await fetch('/make-notes', {
-                method: 'POST',
-                body: JSON.stringify({ language: language, word: word }),
-                headers: {
-                    'content-type': 'application/json'
-                }
-            })).json();
+            try {
+                return await (await fetch('/make-notes', {
+                    method: 'POST',
+                    body: JSON.stringify({ language: language, word: word }),
+                    headers: {
+                        'content-type': 'application/json'
+                    }
+                })).json();
+            } catch (err) {
+                return '*Error*';
+            }
         }
     }
 
