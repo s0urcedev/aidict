@@ -23,9 +23,15 @@
         margin-top: 20px;
         background-color: #FAF5EE;
         padding: 5px 10px 5px 10px;
-        width: 350px;
+        width: 650px;
         border-radius: 0.5em;
         box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    }
+
+    @media (max-width: 400px) {
+        main {
+            width: 350px;
+        }
     }
 
     pre {
@@ -84,5 +90,5 @@
         {/if}
     {/each}
     <pre><u>Notes:</u><br>{data.word?.notes}</pre>
-    <button on:click={deleteWord}>Delete word</button>
+    <button on:click={deleteWord}>Delete the word</button>
 </main>

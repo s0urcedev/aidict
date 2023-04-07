@@ -31,9 +31,15 @@
         margin-top: 20px;
         background-color: #FAF5EE;
         padding: 5px 10px 5px 10px;
-        width: 350px;
+        width: 650px;
         border-radius: 0.5em;
         box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    }
+
+    @media (max-width: 400px) {
+        main {
+            width: 350px;
+        }
     }
 
     span.title {
@@ -102,5 +108,5 @@
     {#each data.sets as set}
         <a data-sveltekit-reload href="/sets/{set.id}"><span>{set.name}</span></a>
     {/each}
-    <button on:click={createNew}>Create new</button>
+    <button on:click={createNew}>Create a new set</button>
 </main>

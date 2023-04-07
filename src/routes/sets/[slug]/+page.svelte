@@ -24,9 +24,15 @@
         margin-top: 20px;
         background-color: #FAF5EE;
         padding: 5px 10px 5px 10px;
-        width: 350px;
+        width: 650px;
         border-radius: 0.5em;
         box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    }
+
+    @media (max-width: 400px) {
+        main {
+            width: 350px;
+        }
     }
 
     span.title {
@@ -92,6 +98,6 @@
     {#each data.set.words as word}
         <a data-sveltekit-reload href="/words/{word.id}"><span>{word.word} (<u>{languages['isoToName'][word.language]}</u>)</span></a>
     {/each}
-    <button on:click={() => goto(`/sets/${data.set.id}/add-word`)}>Add word</button>
-    <button on:click={deleteSet}>Delete set</button>
+    <button on:click={() => goto(`/sets/${data.set.id}/add-word`)}>Add a word</button>
+    <button on:click={deleteSet}>Delete the set</button>
 </main>

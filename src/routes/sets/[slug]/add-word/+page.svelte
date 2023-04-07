@@ -69,9 +69,15 @@
         margin-top: 20px;
         background-color: #FAF5EE;
         padding: 5px 10px 5px 10px;
-        width: 350px;
+        width: 650px;
         border-radius: 0.5em;
         box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    }
+
+    @media (max-width: 400px) {
+        main {
+            width: 350px;
+        }
     }
 
     .add-form span.title {
@@ -101,7 +107,7 @@
         font-family: "e-Ukraine", sans-serif;
         outline: 0;
         background: #F7EFE5;
-        width: calc(100% - 36% - 5px);
+        width: calc(100% - 235px);
         border: 0;
         margin: auto;
         margin-top: 10px;
@@ -114,11 +120,17 @@
         height: 45px;
     }
 
+    @media (max-width: 400px) {
+        .add-form input {
+            width: calc(100% - 125px);
+        }
+    }
+
     .add-form select {
         font-family: "e-Ukraine", sans-serif;
         outline: 0;
         background: #F7EFE5;
-        width: 36%;
+        width: 230px;
         border: 0;
         margin: auto;
         margin-top: 10px;
@@ -129,6 +141,12 @@
         font-size: 18px;
         border-radius: 0.5em;
         height: 45px;
+    }
+
+    @media (max-width: 400px) {
+        .add-form select {
+            width: 120px;
+        }
     }
 
     .add-form input:focus {
@@ -178,12 +196,13 @@
 </style>
 
 <svelte:head>
-    <title>Add word</title>
+    <title>Add a word</title>
 </svelte:head>
 
 <main>
     <form method="POST" class="add-form" id="addForm" on:submit={(event) => { event.preventDefault(); }}>
-        <span class="title">Add word:</span>
+        <span class="title">Add a word</span>
+        <hr style="height:2px; border-width:0; color:#006885; background-color:#006885">
         <span>Original:</span>
         <div>
             <select bind:value={language} on:change={async () => {
